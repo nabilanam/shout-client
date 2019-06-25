@@ -1,0 +1,6 @@
+export const isPrimary = 'is-primary'
+export const isLink = 'is-link'
+export const isInfo = 'is-info'
+export const isSuccess = 'is-success'
+export const isWarning = 'is-warning'
+export const isDanger = 'is-danger'

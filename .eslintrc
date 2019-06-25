@@ -1,0 +1,13 @@
+{
+  "extends": ["eslint:recommended", "react-app"],
+  "rules": {
+    "semi": ["error", "never"],
+    "indent": ["error", 2],
+    "curly": ["error", "all"],
+    "linebreak-style": ["error", "unix"],
+    "no-sequences": "off"
+  },
+  "globals": {
+    "CONFIG": false
+  }
+}
