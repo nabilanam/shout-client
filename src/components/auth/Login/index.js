@@ -77,43 +77,46 @@ class Login extends Component {
 
   handleSuccess = res => {
     this.props.addToken(res.data.data)
-    this.props.createNotification('Welcome!', colors.isSuccess)
+    this.props.addNotification('Welcome!', colors.isSuccess)
     this.toggleIsLoading()
     this.toggleIsDisabled()
     this.clearInputs()
   }
 
-  handleErrorCodes = ({ status, param, error }) => {
-    if (status === 400) {
-      switch (param) {
-      case 'username':
-        this.setState({ username: { error } })
-        break
-      case 'password':
-        this.setState({ password: { error } })
-        break
-      default:
-        this.props.createNotification(
-          'Invalid Credential. Please try again!',
-          colors.isDanger
-        )
-        this.clearInputs()
-        break
-      }
-    } else {
-      this.props.createNotification(error, colors.isDanger)
+  handleValidationError = (param, error) => {
+    switch (param) {
+    case 'username':
+      this.setState({ username: { error } })
+      break
+    case 'password':
+      this.setState({ password: { error } })
+      break
+    default:
+      this.props.addNotification(
+        'Invalid Credential. Please try again!',
+        colors.isDanger
+      )
+      this.clearInputs()
+      break
     }
   }
 
   handleError = err => {
     const { response } = err
-    if (response) {
-      this.handleErrorCodes(response)
-    } else {
-      this.props.createNotification(
+    if (!response) {
+      this.props.addNotification(
         'Please check your network connection!',
         colors.isDanger
       )
+    } else {
+      const { status, param, error } = response.data
+      if (status === 400) {
+        this.handleValidationError(param, error)
+      } else if (status === 401) {
+        this.props.addNotification(error, colors.isDanger)
+      } else {
+        this.props.addNotification('User does not exist', colors.isDanger)
+      }
     }
     this.toggleIsLoading()
   }
@@ -128,9 +131,6 @@ class Login extends Component {
       .then(this.handleSuccess)
       .catch(this.handleError)
   }
-
-  onTabRegisterClick = () => {}
-  onTabLoginClick = () => {}
 
   render() {
     return (
@@ -171,7 +171,7 @@ class Login extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     addToken: token => dispatch(addToken(token)),
-    createNotification: (text, color) => dispatch(addNotification(text, color))
+    addNotification: (text, color) => dispatch(addNotification(text, color))
   }
 }
 
