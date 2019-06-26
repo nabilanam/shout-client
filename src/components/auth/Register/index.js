@@ -8,6 +8,7 @@ import Button from '../../presentational/Button'
 import * as colors from '../../_constants/bulma-colors'
 import { register } from '../../../api/auth'
 import { addNotification } from '../../../actions/notifications'
+import AuthRedirection from '../AuthRedirection'
 
 class Register extends Component {
   state = {
@@ -141,6 +142,7 @@ class Register extends Component {
   render() {
     return (
       <Hero>
+        <AuthRedirection isProtected={false} />
         <CenteredColumn>
           <Notifications />
           <Input

@@ -9,6 +9,7 @@ import * as colors from '../../_constants/bulma-colors'
 import { login } from '../../../api/auth'
 import { addToken } from '../../../actions/currentUser'
 import { addNotification } from '../../../actions/notifications'
+import AuthRedirection from '../AuthRedirection'
 
 class Login extends Component {
   state = {
@@ -135,6 +136,7 @@ class Login extends Component {
   render() {
     return (
       <Hero>
+        <AuthRedirection isProtected={false} />
         <CenteredColumn>
           <Notifications />
           <Input

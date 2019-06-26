@@ -9,6 +9,7 @@ import Hero from '../../presentational/Hero'
 import CenteredColumn from '../../presentational/CenteredColumn'
 import Notifications from '../../container/Notifications'
 import * as colors from '../../_constants/bulma-colors'
+import AuthRedirection from '../AuthRedirection'
 
 class Confirm extends Component {
   verifyKey = key => {
@@ -33,12 +34,9 @@ class Confirm extends Component {
   render() {
     return (
       <Hero>
+        <AuthRedirection isProtected={false} />
         <CenteredColumn>
-          {this.props.hasToken ? (
-            <Redirect to="/feed/all" />
-          ) : (
-            <Notifications />
-          )}
+          <Notifications />
         </CenteredColumn>
       </Hero>
     )
