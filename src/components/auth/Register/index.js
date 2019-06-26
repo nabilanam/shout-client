@@ -91,26 +91,34 @@ class Register extends Component {
   }
 
   handleSuccess = res => {
-    this.props.createNotification(res.data.data)
+    this.props.createNotification(res.data.data, colors.isSuccess)
     this.toggleIsLoading()
     this.toggleIsDisabled()
     this.clearInputs()
   }
 
   handleError = err => {
-    const { param, error } = err.response.data
-    switch (param) {
-    case 'username':
-      this.setState({ username: { error } })
-      break
-    case 'email':
-      this.setState({ email: { error } })
-      break
-    case 'password':
-      this.setState({ password: { error } })
-      break
-    default:
-      break
+    const { response } = err
+    if (response) {
+      const { param, error } = response.data
+      switch (param) {
+      case 'username':
+        this.setState({ username: { error } })
+        break
+      case 'email':
+        this.setState({ email: { error } })
+        break
+      case 'password':
+        this.setState({ password: { error } })
+        break
+      default:
+        break
+      }
+    } else {
+      this.props.createNotification(
+        'Please check your network connection',
+        colors.isDanger
+      )
     }
     this.toggleIsLoading()
   }
@@ -177,8 +185,7 @@ class Register extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createNotification: text =>
-      dispatch(addNotification(text, colors.isSuccess))
+    createNotification: (text, color) => dispatch(addNotification(text, color))
   }
 }
 
