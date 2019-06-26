@@ -4,7 +4,8 @@
   "description": "A demo social media",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack.dev.config.js",
+    "open-chrome": "google-chrome-stable --auto-open-devtools-for-tabs http://localhost:8080 >/dev/null 2>&1 &",
+    "start": "npm run open-chrome && webpack-dev-server --config webpack.dev.config.js",
     "build": "webpack --config webpack.prod.config.js"
   },
   "keywords": [],
