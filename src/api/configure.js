@@ -1,11 +1,13 @@
-import * as axios from 'axios'
+import axios from 'axios'
+import { loadState } from '../localstorage'
 
 const configureApi = () => {
   axios.defaults.baseURL = CONFIG.apiURL
   axios.interceptors.request.use(
     cfg => {
-      if (!cfg.headers['x-auth-token']) {
-        const token = localStorage.getItem('auth.token')
+      const state = loadState()
+      if (state) {
+        const { token } = state.currentUser
         if (token) {
           cfg.headers['x-auth-token'] = token
         }
