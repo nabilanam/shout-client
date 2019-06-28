@@ -5,7 +5,8 @@
     "indent": ["error", 2],
     "curly": ["error", "all"],
     "linebreak-style": ["error", "unix"],
-    "no-sequences": "off"
+    "no-sequences": "off",
+    "jsx-a11y/anchor-is-valid": "off"
   },
   "globals": {
     "CONFIG": false
