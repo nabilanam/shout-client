@@ -1,7 +1,8 @@
 import {
   ADD_TOKEN,
   REFRESHING_TOKEN,
-  REMOVE_TOKEN
+  REMOVE_TOKEN,
+  LOADED_USER_DATA
 } from '../../actions/currentUser/types'
 
 const init = {
@@ -18,6 +19,8 @@ const reducer = (state = init, action) => {
     return { ...state, isRefreshingToken: true }
   case REMOVE_TOKEN:
     return { ...state, token: '', isRefreshingToken: false }
+  case LOADED_USER_DATA:
+    return { ...state, ...payload }
   default:
     return state
   }
