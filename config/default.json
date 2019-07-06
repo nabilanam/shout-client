@@ -1,4 +1,9 @@
 {
   "apiURL": "http://localhost:5000/",
-  "tokenRefreshAge": 86400000
+  "tokenRefreshAge": 86400000,
+  "scrollPercentage": 0.6,
+  "feedPaginationLimit": 5,
+  "likePaginationLimit": 8,
+  "commentPaginationLimit": 5,
+  "postMaxLength": 512
 }
