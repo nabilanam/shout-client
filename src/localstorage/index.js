@@ -17,3 +17,8 @@ export const saveState = state => {
     return undefined
   }
 }
+
+export const isTokenSaved = () => {
+  const state = loadState()
+  return state && state.currentUser && state.currentUser.token
+}
