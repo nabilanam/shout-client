@@ -1,14 +1,16 @@
+import { composeWithDevTools } from 'redux-devtools-extension'
 import { createStore, applyMiddleware } from 'redux'
-import { loadState, saveState } from '../localstorage'
 import throttle from 'lodash/throttle'
-import reducer from '../reducers'
+
+import { loadState, saveState } from '../localstorage'
 import middlewares from './middlewares'
+import reducer from '../reducers'
 
 const configureStore = () => {
   const store = createStore(
     reducer,
     loadState(),
-    applyMiddleware(...middlewares)
+    composeWithDevTools(applyMiddleware(...middlewares))
   )
 
   store.subscribe(

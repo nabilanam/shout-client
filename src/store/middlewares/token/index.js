@@ -1,15 +1,11 @@
 import JwtDecode from 'jwt-decode'
 import moment from 'moment'
 import {
-  ADD_TOKEN,
+  USER_LOGGED_IN,
   REFRESHING_TOKEN,
   REMOVE_TOKEN
 } from '../../../actions/currentUser/types'
-import {
-  addToken,
-  refreshingToken,
-  removeToken
-} from '../../../actions/currentUser'
+import * as currentUserActions from '../../../actions/currentUser'
 import { extend } from '../../../api/auth'
 
 const buffer = []
@@ -26,11 +22,16 @@ const dispatchActionsInBuffers = dispatch => {
 const renewToken = dispatch => {
   extend()
     .then(res => {
-      dispatch(addToken(res.data.data))
+      dispatch(
+        currentUserActions.userLoggedIn(
+          res.data.data,
+          JwtDecode(res.data.data).id
+        )
+      )
       dispatchActionsInBuffers(dispatch)
     })
     .catch(() => {
-      dispatch(removeToken())
+      dispatch(currentUserActions.removeToken())
       dispatchActionsInBuffers(dispatch)
     })
 }
@@ -43,10 +44,9 @@ const isRefreshRequired = token => {
 
 const token = ({ getState, dispatch }) => next => action => {
   const currentUser = getState().currentUser
-  if (typeof action !== 'function') {
-    return next(action)
-  } else if (
-    action.type === ADD_TOKEN ||
+  if (
+    typeof action !== 'function' ||
+    action.type === USER_LOGGED_IN ||
     action.type === REFRESHING_TOKEN ||
     action.type === REMOVE_TOKEN
   ) {
@@ -55,14 +55,12 @@ const token = ({ getState, dispatch }) => next => action => {
     buffer.push(action)
   } else {
     const { token } = currentUser
-    if (token) {
-      if (isRefreshRequired(token)) {
-        buffer.push(action)
-        dispatch(refreshingToken())
-        renewToken(dispatch)
-      } else {
-        return next(action)
-      }
+    if (token && isRefreshRequired(token)) {
+      buffer.push(action)
+      dispatch(currentUserActions.refreshingToken())
+      renewToken(dispatch)
+    } else {
+      return next(action)
     }
   }
 }
