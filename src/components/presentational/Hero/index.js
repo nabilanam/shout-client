@@ -1,20 +1,30 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-const Hero = ({ children }) => {
-  return (
-    <div>
-      <section className="hero is-success">
-        <div className="hero-body">
-          <div className="container has-text-centered">
-            <h1 className="title">Shout Social Media</h1>
-          </div>
-        </div>
-      </section>
+class Hero extends Component {
+  componentWillMount() {
+    document.body.classList.remove('has-navbar-fixed-top')
+  }
 
-      <div className="section">{children}</div>
-    </div>
-  )
+  componentWillUnmount() {
+    document.body.classList.add('has-navbar-fixed-top')
+  }
+
+  render() {
+    return (
+      <div>
+        <section className="hero is-success">
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <h1 className="title">Shout Social Media</h1>
+            </div>
+          </div>
+        </section>
+
+        <div className="section">{this.props.children}</div>
+      </div>
+    )
+  }
 }
 
 Hero.propTypes = {
