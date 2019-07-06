@@ -8,18 +8,18 @@ const Button = ({ text, color, onClick, isLoading, isDisabled }) => (
         className={getClasses(color, isLoading)}
         onClick={onClick}
         disabled={isDisabled}>
-        {text}
+        {text ? text : 'Submit'}
       </button>
     </div>
   </div>
 )
 
 Button.propTypes = {
-  text: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
-  isDisabled: PropTypes.bool
+  onClick: PropTypes.func.isRequired,
+  text: PropTypes.string
 }
 
 export default Button
