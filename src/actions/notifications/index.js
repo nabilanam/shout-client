@@ -13,6 +13,18 @@ export const addNotification = (text, color) => {
   }
 }
 
+export const notifyDanger = text => {
+  return addNotification(text, 'is-danger')
+}
+
+export const notifyWarning = text => {
+  return addNotification(text, 'is-warning')
+}
+
+export const notifySuccess = text => {
+  return addNotification(text, 'is-success')
+}
+
 export const removeNotification = id => {
   return {
     type: REMOVE_NOTIFICATION,
