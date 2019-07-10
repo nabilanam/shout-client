@@ -1,7 +1,17 @@
 import { combineReducers } from 'redux'
+
 import currentUser from './currentUser'
 import notifications from './notifications'
+import posts from './posts'
+import users from './users'
+import likes from './likes'
+import comments from './comments'
 
-const reducer = combineReducers({ currentUser, notifications })
-
-export default reducer
+export default combineReducers({
+  currentUser,
+  notifications,
+  posts,
+  users,
+  likes,
+  comments
+})
