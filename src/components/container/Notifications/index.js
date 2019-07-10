@@ -1,8 +1,9 @@
-import React from 'react'
 import { connect } from 'react-redux'
-import Notification from '../../presentational/Notification'
-import { removeNotification } from '../../../actions/notifications'
+import React from 'react'
+
 import { getNotifications } from '../../../selectors/notifications'
+import { removeNotification } from '../../../actions/notifications'
+import Notification from '../../presentational/Notification'
 
 let Notifications = ({ notifications, onClick }) => {
   return (
@@ -15,7 +16,6 @@ let Notifications = ({ notifications, onClick }) => {
           onClick={() => onClick(item.id)}
         />
       ))}
-      {notifications.length ? <hr /> : null}
     </div>
   )
 }
