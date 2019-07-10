@@ -1,8 +1,7 @@
 import {
-  ADD_TOKEN,
+  USER_LOGGED_IN,
   REFRESHING_TOKEN,
-  REMOVE_TOKEN,
-  LOADED_USER_DATA
+  REMOVE_TOKEN
 } from '../../actions/currentUser/types'
 
 const init = {
@@ -13,14 +12,16 @@ const init = {
 const reducer = (state = init, action) => {
   const { type, payload } = action
   switch (type) {
-  case ADD_TOKEN:
-    return { ...state, token: payload.token, isRefreshingToken: false }
+  case USER_LOGGED_IN:
+    return {
+      ...state,
+      ...payload,
+      isRefreshingToken: false
+    }
   case REFRESHING_TOKEN:
     return { ...state, isRefreshingToken: true }
   case REMOVE_TOKEN:
     return { ...state, token: '', isRefreshingToken: false }
-  case LOADED_USER_DATA:
-    return { ...state, ...payload }
   default:
     return state
   }
