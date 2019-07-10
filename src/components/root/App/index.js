@@ -1,16 +1,31 @@
-import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import Register from '../../auth/Register'
-import Login from '../../auth/Login'
+import React from 'react'
+
 import Confirm from '../../auth/Confirm'
+import Feed from '../../container/Feed'
+import Login from '../../auth/Login'
+import Register from '../../auth/Register'
+import Logout from '../../auth/Logout'
 
 const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/auth/:key?" component={Confirm} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/auth/:key" component={Confirm} />
+        <Route
+          exact
+          path="/feed/all"
+          render={props => <Feed key="1" {...props} />}
+        />
+        <Route
+          exact
+          path="/feed/:username"
+          render={props => <Feed key="2" {...props} />}
+        />
+        <Route exact path="/logout" component={Logout} />
+        <Route exact path="/" component={Login} />
       </Switch>
     </BrowserRouter>
   )
