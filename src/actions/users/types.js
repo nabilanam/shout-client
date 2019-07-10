@@ -1,0 +1,2 @@
+export const ADD_USER_DATA = 'ADD_USER_DATA'
+export const ADD_PROFILE_PICTURE = 'ADD_PROFILE_PICTURE'
