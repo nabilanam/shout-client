@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Hero from '../../presentational/Hero'
-import Notifications from '../../container/Notifications'
-import CenteredColumn from '../../presentational/CenteredColumn'
-import Input from '../../presentational/Input'
-import Button from '../../presentational/Button'
-import * as colors from '../../_constants/bulma-colors'
-import { login } from '../../../api/auth'
-import { addToken } from '../../../actions/currentUser'
-import { addNotification } from '../../../actions/notifications'
+import React, { Component, Fragment } from 'react'
+
+import { notifyDanger } from '../../../actions/notifications'
+import * as currentUserActions from '../../../actions/currentUser'
+import * as currentUserSelectors from '../../../selectors/currentUser'
 import AuthRedirection from '../AuthRedirection'
+import Button from '../../presentational/Button'
+import CenteredColumn from '../../presentational/CenteredColumn'
+import Hero from '../../presentational/Hero'
+import Input from '../../presentational/Input'
+import Notifications from '../../container/Notifications'
 
 class Login extends Component {
   state = {
@@ -76,14 +76,6 @@ class Login extends Component {
     })
   }
 
-  handleSuccess = res => {
-    this.props.addToken(res.data.data)
-    this.props.addNotification('Welcome!', colors.isSuccess)
-    this.toggleIsLoading()
-    this.toggleIsDisabled()
-    this.clearInputs()
-  }
-
   handleValidationError = (param, error) => {
     switch (param) {
     case 'username':
@@ -93,10 +85,7 @@ class Login extends Component {
       this.setState({ password: { error } })
       break
     default:
-      this.props.addNotification(
-        'Invalid Credential. Please try again!',
-        colors.isDanger
-      )
+      this.props.notifyDanger('Invalid Credential. Please try again!')
       this.clearInputs()
       break
     }
@@ -105,18 +94,15 @@ class Login extends Component {
   handleError = err => {
     const { response } = err
     if (!response) {
-      this.props.addNotification(
-        'Please check your network connection!',
-        colors.isDanger
-      )
+      this.props.notifyDanger('Please check your network connection!')
     } else {
       const { status, param, error } = response.data
       if (status === 400) {
         this.handleValidationError(param, error)
       } else if (status === 401) {
-        this.props.addNotification(error, colors.isDanger)
+        this.props.notifyDanger(error)
       } else {
-        this.props.addNotification('User does not exist', colors.isDanger)
+        this.props.notifyDanger('User does not exist')
       }
     }
     this.toggleIsLoading()
@@ -125,59 +111,65 @@ class Login extends Component {
   onSubmit = () => {
     this.toggleIsLoading()
 
-    const username = this.state.username.value
-    const password = this.state.password.value
-
-    login({ username, password })
-      .then(this.handleSuccess)
+    this.props
+      .login(this.state.username.value, this.state.password.value)
       .catch(this.handleError)
   }
 
   render() {
     return (
-      <Hero>
-        <AuthRedirection isProtected={false} />
-        <CenteredColumn>
-          <Notifications />
-          <Input
-            labelText="Username *"
-            type="text"
-            leftIcon="fas fa-user"
-            placeholder="Type username"
-            value={this.state.username.value}
-            errorText={this.state.username.error}
-            onChange={this.onUsernameChange}
-          />
-          <Input
-            labelText="Password *"
-            type="password"
-            leftIcon="fas fa-key"
-            placeholder="Type password"
-            value={this.state.password.value}
-            errorText={this.state.password.error}
-            onChange={this.onPasswordChange}
-          />
-          <Button
-            text="Log In"
-            color={colors.isInfo}
-            onClick={this.onSubmit}
-            isLoading={this.state.button.isLoading}
-            isDisabled={this.state.button.isDisabled}
-          />
-        </CenteredColumn>
-      </Hero>
+      <Fragment>
+        <AuthRedirection isProtected={false} hasToken={this.props.hasToken} />
+        <Hero>
+          <CenteredColumn>
+            <Notifications />
+            <Input
+              labelText="Username *"
+              type="text"
+              leftIcon="fas fa-user"
+              placeholder="Type username"
+              value={this.state.username.value}
+              errorText={this.state.username.error}
+              onChange={this.onUsernameChange}
+            />
+            <Input
+              labelText="Password *"
+              type="password"
+              leftIcon="fas fa-key"
+              placeholder="Type password"
+              value={this.state.password.value}
+              errorText={this.state.password.error}
+              onChange={this.onPasswordChange}
+            />
+            <Button
+              text="Log In"
+              color={'is-primary'}
+              onClick={this.onSubmit}
+              isLoading={this.state.button.isLoading}
+              isDisabled={this.state.button.isDisabled}
+            />
+          </CenteredColumn>
+        </Hero>
+      </Fragment>
     )
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    hasToken: currentUserSelectors.hasToken(state)
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    addToken: token => dispatch(addToken(token)),
-    addNotification: (text, color) => dispatch(addNotification(text, color))
+    login: (username, password) =>
+      dispatch(currentUserActions.login(username, password)),
+    notifyDanger: text => dispatch(notifyDanger(text))
   }
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login)

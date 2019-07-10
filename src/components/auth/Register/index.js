@@ -1,14 +1,16 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Hero from '../../presentational/Hero'
-import Notifications from '../../container/Notifications'
-import CenteredColumn from '../../presentational/CenteredColumn'
-import Input from '../../presentational/Input'
-import Button from '../../presentational/Button'
+import React, { Component } from 'react'
+
+import * as authApi from '../../../api/auth'
 import * as colors from '../../_constants/bulma-colors'
-import { register } from '../../../api/auth'
-import { addNotification } from '../../../actions/notifications'
+import * as currentUserSelectors from '../../../selectors/currentUser'
+import * as notificationActions from '../../../actions/notifications'
 import AuthRedirection from '../AuthRedirection'
+import Button from '../../presentational/Button'
+import CenteredColumn from '../../presentational/CenteredColumn'
+import Hero from '../../presentational/Hero'
+import Input from '../../presentational/Input'
+import Notifications from '../../container/Notifications'
 
 class Register extends Component {
   state = {
@@ -92,7 +94,7 @@ class Register extends Component {
   }
 
   handleSuccess = res => {
-    this.props.createNotification(res.data.data, colors.isSuccess)
+    this.props.nofitfySuccess(res.data.data)
     this.toggleIsLoading()
     this.toggleIsDisabled()
     this.clearInputs()
@@ -116,10 +118,7 @@ class Register extends Component {
         break
       }
     } else {
-      this.props.createNotification(
-        'Please check your network connection',
-        colors.isDanger
-      )
+      this.props.notifyDanger('Please check your network connection')
     }
     this.toggleIsLoading()
   }
@@ -131,7 +130,8 @@ class Register extends Component {
     const email = this.state.email.value
     const password = this.state.password.value
 
-    register({ username, email, password })
+    authApi
+      .register({ username, email, password })
       .then(this.handleSuccess)
       .catch(this.handleError)
   }
@@ -142,7 +142,7 @@ class Register extends Component {
   render() {
     return (
       <Hero>
-        <AuthRedirection isProtected={false} />
+        <AuthRedirection isProtected={false} hasToken={this.props.hasToken} />
         <CenteredColumn>
           <Notifications />
           <Input
@@ -185,13 +185,20 @@ class Register extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    hasToken: currentUserSelectors.hasToken(state)
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
-    createNotification: (text, color) => dispatch(addNotification(text, color))
+    nofitfySuccess: text => dispatch(notificationActions.notifySuccess(text)),
+    nofitfyDanger: text => dispatch(notificationActions.notifyDanger(text))
   }
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Register)

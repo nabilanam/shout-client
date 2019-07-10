@@ -1,40 +1,22 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { confirm } from '../../../api/auth'
-import { addToken } from '../../../actions/currentUser'
-import { addNotification } from '../../../actions/notifications'
-import { hasToken } from '../../../selectors/currentUser'
-import Hero from '../../presentational/Hero'
-import CenteredColumn from '../../presentational/CenteredColumn'
-import Notifications from '../../container/Notifications'
-import * as colors from '../../_constants/bulma-colors'
+import React, { Component } from 'react'
+
+import * as currentUserActions from '../../../actions/currentUser'
+import * as currentUserSelectors from '../../../selectors/currentUser'
 import AuthRedirection from '../AuthRedirection'
+import CenteredColumn from '../../presentational/CenteredColumn'
+import Hero from '../../presentational/Hero'
+import Notifications from '../../container/Notifications'
 
 class Confirm extends Component {
-  verifyKey = key => {
-    confirm(key)
-      .then(res => {
-        this.props.addToken(res.data.data)
-        this.props.addNotification(
-          'Email confirmation successful!',
-          colors.isSuccess
-        )
-      })
-      .catch(() => this.props.addNotification('Invalid Key!', colors.isDanger))
-  }
-
   componentDidMount() {
-    const { key } = this.props.match.params
-    if (key) {
-      this.verifyKey(key)
-    }
+    this.props.confirmUser(this.props.match.params.key)
   }
 
   render() {
     return (
       <Hero>
-        <AuthRedirection isProtected={false} />
+        <AuthRedirection isProtected={false} hasToken={this.props.hasToken} />
         <CenteredColumn>
           <Notifications />
         </CenteredColumn>
@@ -45,14 +27,13 @@ class Confirm extends Component {
 
 const mapStateToProps = state => {
   return {
-    hasToken: hasToken(state)
+    hasToken: currentUserSelectors.hasToken(state)
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    addToken: token => dispatch(addToken(token)),
-    addNotification: (text, color) => dispatch(addNotification(text, color))
+    confirmUser: key => dispatch(currentUserActions.confirmUser(key))
   }
 }
 
