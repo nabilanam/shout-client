@@ -1,8 +1,28 @@
 import { createSelector } from 'reselect'
 
-const token = state => state.currentUser.token
+export const currentUser = state => state.currentUser
+
+const token = createSelector(
+  currentUser,
+  currentUser => currentUser.token
+)
 
 export const hasToken = createSelector(
   token,
-  token => (token ? true : false)
+  token => !!token
+)
+
+export const getUserId = createSelector(
+  currentUser,
+  currentUser => currentUser._id
+)
+
+export const getUsername = createSelector(
+  currentUser,
+  currentUser => currentUser.username
+)
+
+export const getPicture = createSelector(
+  currentUser,
+  currentUser => currentUser.picture
 )
