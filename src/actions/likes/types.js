@@ -1,0 +1,6 @@
+export const FETCH_LIKES = 'FETCH_LIKES'
+export const FETCH_LIKES_DONE = 'FETCH_LIKES_DONE'
+export const FETCH_LIKES_ERROR = 'FETCH_LIKES_ERROR'
+export const RESET_LIKES = 'RESET_LIKES'
+
+export const TOGGLE_POST_LIKE = 'TOGGLE_POST_LIKE'
