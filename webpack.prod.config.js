@@ -3,12 +3,14 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CreateFileWebpack = require('create-file-webpack')
 
 module.exports = {
   mode: 'production',
   output: {
     filename: 'js/[name].[contenthash].js',
-    path: path.resolve('./public')
+    path: path.resolve('./public'),
+    publicPath: 'https://shout.netlify.com/'
   },
   devServer: {
     historyApiFallback: true
@@ -72,6 +74,11 @@ module.exports = {
     new MiniCssExtractPlugin({ filename: 'css/[name].[contentHash].css' }),
     new HtmlWebpackPlugin({
       template: 'src/template/index.html'
+    }),
+    new CreateFileWebpack({
+      path: './public',
+      fileName: '_redirects',
+      content: '/*    /index.html   200'
     })
   ]
 }
