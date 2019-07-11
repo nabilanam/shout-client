@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import * as userActions from '../../../actions/users'
 import * as currentUserSelectors from '../../../selectors/currentUser'
 import AuthRedirection from '../../auth/AuthRedirection'
 import Footer from '../Footer'
@@ -38,13 +37,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchUserData: id => dispatch(userActions.fetchUserData(id))
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Page)
+export default connect(mapStateToProps)(Page)
