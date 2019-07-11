@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+
 import logo from '../../../assets/logo.png'
 
 class Header extends Component {
@@ -60,7 +61,7 @@ class Header extends Component {
               My Posts
             </NavLink>
             <NavLink
-              to="/profile"
+              to={'/profile/' + this.props.username}
               onClick={this.toggleBurgerClick}
               className="navbar-item has-text-centered">
               Profile
