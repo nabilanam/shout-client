@@ -8,6 +8,20 @@ export const getUser = createSelector(
   byId => memoize(userId => byId[userId])
 )
 
+export const getUserByUsername = createSelector(
+  byId,
+  byId =>
+    memoize(username => {
+      const keys = Object.keys(byId)
+      for (let id of keys) {
+        const user = byId[id]
+        if (user.username === username) {
+          return user
+        }
+      }
+    })
+)
+
 export const getUserPicture = createSelector(
   getUser,
   getUser => memoize(userId => getUser(userId).picture)
