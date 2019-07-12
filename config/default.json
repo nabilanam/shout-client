@@ -7,6 +7,7 @@
   "commentPaginationLimit": 5,
   "postMaxLength": 512,
   "commentMaxLength": 256,
+  "nameMinLength": 3,
   "nameMaxLength": 16,
   "bioMaxLength": 356,
   "quoteMaxLength": 256,
