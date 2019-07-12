@@ -5,7 +5,7 @@ import * as currentUserSelector from '../../../selectors/currentUser'
 import * as postActions from '../../../actions/posts'
 import * as postsSelector from '../../../selectors/posts'
 import Editable from '../../presentational/Editable'
-import Page from '../../common/Page'
+import Page from '../Page'
 import Posts from '../Posts'
 
 class Feed extends Component {

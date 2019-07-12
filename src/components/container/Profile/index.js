@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react'
 
 import * as userActions from '../../../actions/users'
 import * as userSelectors from '../../../selectors/users'
-import Page from '../../common/Page'
+import Page from '../Page'
 
 class Profile extends Component {
   state = {

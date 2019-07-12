@@ -5,7 +5,7 @@ import * as currentUserActions from '../../../actions/currentUser'
 import * as currentUserSelectors from '../../../selectors/currentUser'
 import Button from '../../presentational/Button'
 import Input from '../../presentational/Input'
-import Page from '../../common/Page'
+import Page from '../Page'
 
 class Update extends Component {
   state = {

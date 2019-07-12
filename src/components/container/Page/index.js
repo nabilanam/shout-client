@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 
 import * as currentUserSelectors from '../../../selectors/currentUser'
 import AuthRedirection from '../../auth/AuthRedirection'
-import Footer from '../Footer'
-import Header from '../Header'
-import Notifications from '../../container/Notifications'
+import Footer from '../../presentational/Footer'
+import Header from '../../presentational/Header'
+import Notifications from '../Notifications'
 
 class Page extends Component {
   render() {
