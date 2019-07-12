@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import React, { Component } from 'react'
 
 import * as authApi from '../../../api/auth'
@@ -179,6 +180,8 @@ class Register extends Component {
             isLoading={this.state.button.isLoading}
             isDisabled={this.state.button.isDisabled}
           />
+          <hr />
+          <NavLink to="/login">Already a member ?</NavLink>
         </CenteredColumn>
       </Hero>
     )

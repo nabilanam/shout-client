@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import React, { Component, Fragment } from 'react'
 
 import { notifyDanger } from '../../../actions/notifications'
@@ -148,6 +149,8 @@ class Login extends Component {
               isLoading={this.state.button.isLoading}
               isDisabled={this.state.button.isDisabled}
             />
+            <hr />
+            <NavLink to="/register">Not a member ?</NavLink>
           </CenteredColumn>
         </Hero>
       </Fragment>
