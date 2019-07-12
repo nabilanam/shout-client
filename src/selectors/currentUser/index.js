@@ -26,3 +26,8 @@ export const getPicture = createSelector(
   currentUser,
   currentUser => currentUser.picture
 )
+
+export const isUpdating = createSelector(
+  currentUser,
+  currentUser => currentUser.isUpdating
+)
