@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
 class Hero extends Component {
-  componentWillMount() {
+  componentDidMount() {
     document.body.classList.remove('has-navbar-fixed-top')
   }
 
