@@ -4,8 +4,10 @@ import React from 'react'
 import Confirm from '../../auth/Confirm'
 import Feed from '../../container/Feed'
 import Login from '../../auth/Login'
-import Register from '../../auth/Register'
 import Logout from '../../auth/Logout'
+import Profile from '../../container/Profile'
+import Register from '../../auth/Register'
+import Update from '../../container/Update'
 
 const App = () => {
   return (
@@ -24,6 +26,8 @@ const App = () => {
           path="/feed/:username"
           render={props => <Feed key="2" {...props} />}
         />
+        <Route exact path="/profile/update" component={Update} />
+        <Route exact path="/profile/:username" component={Profile} />
         <Route exact path="/logout" component={Logout} />
         <Route exact path="/" component={Login} />
       </Switch>
