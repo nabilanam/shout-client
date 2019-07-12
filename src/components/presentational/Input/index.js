@@ -34,7 +34,7 @@ const Input = ({
         </div>
         <div className="level-right">
           <div className="level-item">
-            {maxLength ? `${value.length}/${maxLength}` : null}
+            {value && maxLength ? `${value.length}/${maxLength}` : null}
           </div>
         </div>
       </div>

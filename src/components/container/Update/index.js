@@ -24,17 +24,17 @@ class Update extends Component {
   componentDidMount() {
     const { username, firstname, lastname, bio, quote, social } = this.props
     this.setState({
-      username,
-      firstname,
-      lastname,
-      bio,
-      quote,
+      username: username || '',
+      firstname: firstname || '',
+      lastname: lastname || '',
+      bio: bio || '',
+      quote: quote || '',
       social: {
-        facebook: social.facebook || '',
-        twitter: social.twitter || '',
-        youtube: social.youtube || '',
-        instagram: social.instagram || '',
-        reddit: social.reddit || ''
+        facebook: social ? social.facebook || '' : '',
+        twitter: social ? social.twitter || '' : '',
+        youtube: social ? social.youtube || '' : '',
+        instagram: social ? social.instagram || '' : '',
+        reddit: social ? social.reddit || '' : ''
       }
     })
   }
@@ -84,7 +84,9 @@ class Update extends Component {
         <div className="level">
           <div className="level-left" />
           <div className="level-right">
-            <span className="level-item">{`${value.length}/${maxLength}`}</span>
+            <span className="level-item">
+              {value ? `${value.length}/${maxLength}` : null}
+            </span>
           </div>
         </div>
       </div>
@@ -142,7 +144,7 @@ class Update extends Component {
       error_username = `Username must be between ${CONFIG.nameMinLength} to 
       ${
         CONFIG.nameMaxLength
-      } characters. Value will be discarded when submitted.`
+      } characters, else value will be discarded when submitted.`
     }
     this.setState({ username, error_username })
   }
@@ -157,7 +159,7 @@ class Update extends Component {
       error_firstname = `First name must be between ${CONFIG.nameMinLength} to 
       ${
         CONFIG.nameMaxLength
-      } characters. Value will be discarded when submitted.`
+      } characters, else value will be discarded when submitted.`
     }
     this.setState({ firstname, error_firstname })
   }
@@ -172,7 +174,7 @@ class Update extends Component {
       error_lastname = `Last name must be between ${CONFIG.nameMinLength} to 
       ${
         CONFIG.nameMaxLength
-      } characters. Value will be discarded when submitted.`
+      } characters, else value will be discarded when submitted.`
     }
     this.setState({ lastname, error_lastname })
   }
