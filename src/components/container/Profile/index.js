@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import React, { Component, Fragment } from 'react'
+import { NavLink } from 'react-router-dom'
 
 import * as userActions from '../../../actions/users'
 import * as userSelectors from '../../../selectors/users'
@@ -28,8 +29,9 @@ class Profile extends Component {
                 <img src={picture} alt="user" style={{ maxHeight: 128 }} />
               </p>
               <br />
-              <p>{fullname}</p>
+              <p style={{ textTransform: 'capitalize' }}>{fullname}</p>
               <p>{'@' + username}</p>
+              <NavLink to={`/feed/${username}`}>View posts</NavLink>
               <br />
               {social ? (
                 <Fragment>
@@ -53,11 +55,15 @@ class Profile extends Component {
             <br />
             <label className="label">Bio</label>
             <div className="box" style={{ wordBreak: 'break-all' }}>
-              {bio}
+              {bio
+                ? bio
+                : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id laoreet magna. Cras varius dui augue, a interdum orci suscipit et. Vivamus ante metus, scelerisque vitae arcu ac, scelerisque ullamcorper neque. Suspendisse et ligula vitae libero blandit aliquet. In ut nisl a dolor suscipit pharetra sed non elit.'}
             </div>
             <label className="label">Quote</label>
             <div className="box" style={{ wordBreak: 'break-all' }}>
-              {quote}
+              {quote
+                ? quote
+                : 'Curabitur auctor aliquam neque scelerisque pharetra. Nullam ut eros ac leo rutrum efficitur vel et ligula. Aliquam aliquam pellentesque erat faucibus eleifend.'}
             </div>
           </div>
         </div>
