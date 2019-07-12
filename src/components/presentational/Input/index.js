@@ -1,6 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import { isPrimary, isSuccess, isDanger } from '../../_constants/bulma-colors'
+import React from 'react'
 
 const Input = ({
   type,
@@ -10,7 +9,8 @@ const Input = ({
   labelText,
   leftIcon,
   successText,
-  errorText
+  errorText,
+  maxLength
 }) => {
   return (
     <div className="field">
@@ -22,36 +22,49 @@ const Input = ({
           placeholder={placeholder}
           value={value || ''}
           onChange={onChange}
+          maxLength={maxLength}
         />
         {showLeftIcon(leftIcon)}
       </div>
-      {showHelpText(successText, errorText)}
+      <div className="level">
+        <div className="level-left">
+          <div className="level-item">
+            {showHelpText(successText, errorText)}
+          </div>
+        </div>
+        <div className="level-right">
+          <div className="level-item">
+            {maxLength ? `${value.length}/${maxLength}` : null}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
+export default Input
+
 Input.propTypes = {
-  type: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  errorText: PropTypes.string,
   labelText: PropTypes.string,
   leftIcon: PropTypes.string,
+  maxLength: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
   successText: PropTypes.string,
-  errorText: PropTypes.string
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string
 }
-
-export default Input
 
 const getInputClasses = (successText, errorText) => {
   const inputClasses = ['input']
 
   if (successText) {
-    inputClasses.push(isSuccess)
+    inputClasses.push('is-success')
   } else if (errorText) {
-    inputClasses.push(isDanger)
+    inputClasses.push('is-danger')
   } else {
-    inputClasses.push(isPrimary)
+    inputClasses.push('is-primary')
   }
 
   return inputClasses.join(' ')
@@ -68,7 +81,11 @@ const getControlClasses = leftIcon => {
 }
 
 const showLabel = labelText => {
-  return labelText ? <label className="label">{labelText}</label> : null
+  return labelText ? (
+    <label className="label" style={{ textTransform: 'capitalize' }}>
+      {labelText}
+    </label>
+  ) : null
 }
 
 const showLeftIcon = icon => {
@@ -83,9 +100,9 @@ const getHelpClasses = (successText, errorText) => {
   const helpClasses = ['help']
 
   if (successText) {
-    helpClasses.push(isSuccess)
+    helpClasses.push('is-success')
   } else if (errorText) {
-    helpClasses.push(isDanger)
+    helpClasses.push('is-danger')
   }
 
   return helpClasses.join(' ')
