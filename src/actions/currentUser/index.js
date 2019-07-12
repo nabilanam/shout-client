@@ -1,10 +1,18 @@
-import { ADD_USER_DATA } from '../users/types'
-import { USER_LOGGED_IN, REFRESHING_TOKEN, REMOVE_TOKEN } from './types'
-import * as profilesApi from '../../api/profiles'
-import * as authApi from '../../api/auth'
-import { userNormalized } from '../../schema'
-import { notifySuccess, notifyDanger } from '../notifications'
 import JwtDecode from 'jwt-decode'
+
+import {
+  USER_LOGGED_IN,
+  REFRESHING_TOKEN,
+  REMOVE_TOKEN,
+  UPDATE_USER,
+  UPDATE_USER_DONE,
+  UPDATE_USER_ERROR
+} from './types'
+import { ADD_USER_DATA } from '../users/types'
+import { notifySuccess, notifyDanger } from '../notifications'
+import { userNormalized } from '../../schema'
+import * as authApi from '../../api/auth'
+import * as profilesApi from '../../api/profiles'
 
 export const userLoggedIn = (token, userId) => dispatch => {
   profilesApi
@@ -29,6 +37,45 @@ export const userLoggedIn = (token, userId) => dispatch => {
       })
     })
     .catch(() => notifyDanger('An error occurred'))
+}
+
+const getUpdateUserActions = userData => {
+  return [
+    {
+      type: ADD_USER_DATA,
+      payload: { ...userData }
+    },
+    {
+      type: UPDATE_USER_DONE,
+      payload: { ...userData }
+    }
+  ]
+}
+
+export const updateUser = (formData, shouldFetchPicture) => dispatch => {
+  dispatch({ type: UPDATE_USER })
+  profilesApi
+    .updateProfile(formData)
+    .then(res => {
+      const normalized = userNormalized(res.data.data)
+      const userData = normalized.entities.users[normalized.result]
+      const actions = getUpdateUserActions(userData)
+      if (shouldFetchPicture) {
+        profilesApi.getPicture(userData._id).then(picture => {
+          actions.forEach(action => {
+            action.payload.picture = picture
+            dispatch(action)
+          })
+        })
+      } else {
+        actions.forEach(action => dispatch(action))
+      }
+      dispatch(notifySuccess(`Profile successfully updated!`))
+    })
+    .catch(() => {
+      dispatch({ type: UPDATE_USER_ERROR })
+      dispatch(notifyDanger(`Profile update unsuccessful!`))
+    })
 }
 
 export const login = (username, password) => dispatch =>
