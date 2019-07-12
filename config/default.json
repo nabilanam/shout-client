@@ -6,5 +6,9 @@
   "likePaginationLimit": 8,
   "commentPaginationLimit": 5,
   "postMaxLength": 512,
-  "commentMaxLength": 256
+  "commentMaxLength": 256,
+  "nameMaxLength": 16,
+  "bioMaxLength": 356,
+  "quoteMaxLength": 256,
+  "socialMaxLength": 30
 }
