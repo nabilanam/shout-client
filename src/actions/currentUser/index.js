@@ -3,7 +3,7 @@ import JwtDecode from 'jwt-decode'
 import {
   USER_LOGGED_IN,
   REFRESHING_TOKEN,
-  REMOVE_TOKEN,
+  REMOVE_CURRENT_USER,
   UPDATE_USER,
   UPDATE_USER_DONE,
   UPDATE_USER_ERROR
@@ -93,14 +93,14 @@ export const confirmUser = key => dispatch =>
     })
     .catch(() => dispatch(notifyDanger('Invalid auth key')))
 
-export const removeToken = () => {
+export const removeCurrentUser = () => {
   return {
-    type: REMOVE_TOKEN
+    type: REMOVE_CURRENT_USER
   }
 }
 
 export const logout = () => dispatch => {
-  authApi.logout().then(() => dispatch(removeToken()))
+  authApi.logout().then(() => dispatch(removeCurrentUser()))
 }
 
 export const refreshingToken = () => {
