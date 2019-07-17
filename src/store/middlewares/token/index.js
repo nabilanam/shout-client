@@ -31,7 +31,7 @@ const renewToken = dispatch => {
       dispatchActionsInBuffers(dispatch)
     })
     .catch(() => {
-      dispatch(currentUserActions.removeToken())
+      dispatch(currentUserActions.removeCurrentUser())
       dispatchActionsInBuffers(dispatch)
     })
 }
