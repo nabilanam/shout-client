@@ -95,7 +95,7 @@ class Register extends Component {
   }
 
   handleSuccess = res => {
-    this.props.nofitfySuccess(res.data.data)
+    this.props.notifySuccess(res.data.data)
     this.toggleIsLoading()
     this.toggleIsDisabled()
     this.clearInputs()
@@ -104,7 +104,12 @@ class Register extends Component {
   handleError = err => {
     const { response } = err
     if (response) {
-      const { param, error } = response.data
+      const { param, error, status } = response.data
+
+      if (status === 500) {
+        return this.props.notifyDanger('Internal server error')
+      }
+
       switch (param) {
       case 'username':
         this.setState({ username: { error } })
@@ -196,8 +201,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    nofitfySuccess: text => dispatch(notificationActions.notifySuccess(text)),
-    nofitfyDanger: text => dispatch(notificationActions.notifyDanger(text))
+    notifySuccess: text => dispatch(notificationActions.notifySuccess(text)),
+    notifyDanger: text => dispatch(notificationActions.notifyDanger(text))
   }
 }
 
