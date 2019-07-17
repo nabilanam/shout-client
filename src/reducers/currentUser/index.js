@@ -1,7 +1,7 @@
 import {
   USER_LOGGED_IN,
   REFRESHING_TOKEN,
-  REMOVE_TOKEN,
+  REMOVE_CURRENT_USER,
   UPDATE_USER,
   UPDATE_USER_DONE,
   UPDATE_USER_ERROR
@@ -29,8 +29,8 @@ const reducer = (state = init, action) => {
     return { ...state, isUpdating: false }
   case REFRESHING_TOKEN:
     return { ...state, isRefreshingToken: true }
-  case REMOVE_TOKEN:
-    return { ...state, token: '', isRefreshingToken: false }
+  case REMOVE_CURRENT_USER:
+    return {}
   default:
     return state
   }
