@@ -6,6 +6,7 @@
   "scripts": {
     "open-chrome": "google-chrome-stable --auto-open-devtools-for-tabs http://localhost:8080 >/dev/null 2>&1 &",
     "start": "npm run open-chrome && webpack-dev-server --config webpack.dev.config.js",
+    "start-prod": "export NODE_ENV=production&& npm run open-chrome && webpack-dev-server --config webpack.dev.config.js",
     "build": "export NODE_ENV=production&& webpack --config webpack.prod.config.js"
   },
   "keywords": [],
