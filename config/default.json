@@ -9,6 +9,8 @@
   "commentMaxLength": 256,
   "nameMinLength": 3,
   "nameMaxLength": 16,
+  "passwordMinLength": 8,
+  "passwordMaxLength": 32,
   "bioMaxLength": 356,
   "quoteMaxLength": 256,
   "socialMaxLength": 30
