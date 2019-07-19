@@ -1,9 +1,10 @@
 import JwtDecode from 'jwt-decode'
 import moment from 'moment'
+
 import {
   USER_LOGGED_IN,
   REFRESHING_TOKEN,
-  REMOVE_TOKEN
+  REMOVE_CURRENT_USER
 } from '../../../actions/currentUser/types'
 import * as currentUserActions from '../../../actions/currentUser'
 import { extend } from '../../../api/auth'
@@ -48,7 +49,7 @@ const token = ({ getState, dispatch }) => next => action => {
     typeof action !== 'function' ||
     action.type === USER_LOGGED_IN ||
     action.type === REFRESHING_TOKEN ||
-    action.type === REMOVE_TOKEN
+    action.type === REMOVE_CURRENT_USER
   ) {
     return next(action)
   } else if (currentUser.isRefreshingToken) {
