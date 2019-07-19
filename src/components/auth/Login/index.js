@@ -30,20 +30,60 @@ class Login extends Component {
     }
   }
 
-  onUsernameChange = e => {
-    this.setState({
-      username: {
-        value: e.target.value
+  componentDidMount() {
+    this.updateInputState('', '')
+  }
+
+  validationError = (key, value) => {
+    switch (key) {
+    case 'username':
+      return value.length < CONFIG.nameMinLength ||
+          value.length > CONFIG.nameMaxLength
+        ? `Username must be ${CONFIG.nameMinLength} to ${
+          CONFIG.nameMaxLength
+        } characters long`
+        : ''
+    case 'password':
+      return value.length < CONFIG.passwordMinLength ||
+          value.length > CONFIG.passwordMaxLength
+        ? `Password must be ${CONFIG.passwordMinLength} to ${
+          CONFIG.passwordMaxLength
+        } characters long`
+        : ''
+    default:
+      return ''
+    }
+  }
+
+  updateInputState = (key, value) => {
+    const error = this.validationError(key, value)
+    this.setState(prevState => {
+      const keys = ['username', 'password'].filter(k => k !== key)
+      const errorCount =
+        keys.reduce((acc, k) => acc + (prevState[k].error === '' ? 0 : 1), 0) +
+        (error === '' ? 0 : 1)
+      const emptyFieldCount =
+        keys.reduce((acc, k) => acc + (prevState[k].value === '' ? 1 : 0), 0) +
+        (value === '' ? 1 : 0)
+      const isDisabled = !!(errorCount + emptyFieldCount)
+      return {
+        [key]: {
+          value,
+          error
+        },
+        button: {
+          isDisabled
+        }
       }
     })
   }
 
+  onUsernameChange = e => {
+    this.updateInputState('username', e.target.value)
+  }
+
   onPasswordChange = e => {
-    this.setState({
-      password: {
-        value: e.target.value
-      }
-    })
+    this.updateInputState('password', e.target.value)
   }
 
   toggleIsLoading = () => {
