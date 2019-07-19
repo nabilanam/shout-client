@@ -1,10 +1,18 @@
 export const loadState = () => {
   try {
-    const state = localStorage.getItem('state')
+    let state = localStorage.getItem('state')
     if (!state) {
       return undefined
     }
-    return JSON.parse(state)
+    state = JSON.parse(state)
+
+    const user = { ...state.currentUser }
+    delete user.email
+    delete user.token
+    delete user.isUpdating
+    delete user.isRefreshingToken
+
+    return { ...state, users: { byId: { [user._id]: { ...user } } } }
   } catch (err) {
     return undefined
   }
